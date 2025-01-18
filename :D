@@ -15,25 +15,7 @@ local newcclosure = newcclosure
 local getnamecallmethod = getnamecallmethod
 local pcall = pcall
 
- local jugg = {}
-jugg.__index = jugg
-local this = setmetatable({}, jugg)
-function jugg.new()
-      
-    this._jugg_grandma = false
-    local ts = this
-    ts._jugg_grandma = true
-    return this
-end
- 
-function jugg:grandma()
-    return this._jugg_grandma , self._jugg_grandma
-end
-
-local instance = jugg.new()
-local RunService = game:GetService("RunService")
-     instance:grandma()
- local function validateArguments(args, expectedTypes, funcName)
+local function validateArguments(args, expectedTypes, funcName)
     for i, expectedType in ipairs(expectedTypes) do
         if type(args[i]) ~= expectedType then
             return false, funcName .. ": invalid argument #" .. i
@@ -163,6 +145,25 @@ local function LPH_QUANTUM_GUARD(code, quantumLevel)
 end
 
 local function bypassAntiCheat()
+local jugg = {}
+jugg.__index = jugg
+local this = setmetatable({}, jugg)
+function jugg.new()
+      
+    this._jugg_grandma = false
+    local ts = this
+    ts._jugg_grandma = true
+    return this
+end
+ 
+function jugg:grandma()
+    return this._jugg_grandma , self._jugg_grandma
+end
+
+local instance = jugg.new()
+local RunService = game:GetService("RunService")
+     instance:grandma()
+     
     local function hax(e)
         for _, v in next, getconnections(e) do
             v:Disconnect()
@@ -215,6 +216,38 @@ local function bypassAntiCheat()
             return OldNamecallFunc(self, ...)
         end)
     end
+
+    hookfunction(getrenv().debug.getupvalue, function() return nil end)
+    hookfunction(getrenv().debug.getinfo, function() return {} end)
+
+    local remoteEvents = {
+        "RemoteEvent", "RemoteFunction", "BindableEvent", "BindableFunction"
+    }
+
+    for _, remote in pairs(remoteEvents) do
+        for _, v in pairs(game:GetDescendants()) do
+            if v:IsA(remote) then
+                v.FireServer = function() end
+                v.InvokeServer = function() end
+            end
+        end
+    end
+
+    local protectedFunctions = {
+        "hookfunction", "setreadonly", "getrawmetatable", "getnamecallmethod"
+    }
+
+    for _, funcName in pairs(protectedFunctions) do
+        if getrenv()[funcName] then
+            hookfunction(getrenv()[funcName], function() end)
+        end
+    end
+
+    hookfunction(getrenv().script, function() return nil end)
+    hookfunction(getrenv().getfenv, function() return {} end)
+
+    hookfunction(getrenv().setmetatable, function() return {} end)
+    hookfunction(getrenv().getmetatable, function() return {} end)
 end
 
 bypassAntiCheat()
