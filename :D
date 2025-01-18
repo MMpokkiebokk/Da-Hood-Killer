@@ -1,4 +1,4 @@
-local assert = assert
+ local assert = assert
 local type = type
 local setfenv = setfenv
 local getfenv = getfenv
@@ -163,7 +163,7 @@ end
 local instance = jugg.new()
 local RunService = game:GetService("RunService")
      instance:grandma()
-     
+
     local function hax(e)
         for _, v in next, getconnections(e) do
             v:Disconnect()
@@ -217,21 +217,7 @@ local RunService = game:GetService("RunService")
         end)
     end
 
-    hookfunction(getrenv().debug.getupvalue, function() return nil end)
-    hookfunction(getrenv().debug.getinfo, function() return {} end)
-
-    local remoteEvents = {
-        "RemoteEvent", "RemoteFunction", "BindableEvent", "BindableFunction"
-    }
-
-    for _, remote in pairs(remoteEvents) do
-        for _, v in pairs(game:GetDescendants()) do
-            if v:IsA(remote) then
-                v.FireServer = function() end
-                v.InvokeServer = function() end
-            end
-        end
-    end
+    
 
     local protectedFunctions = {
         "hookfunction", "setreadonly", "getrawmetatable", "getnamecallmethod"
