@@ -1,1 +1,2 @@
-Bypass Anticheat Universal
+Bypass Anticheat Universal 
+Put in Auto execute
