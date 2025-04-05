@@ -1,1 +1,6 @@
- 
+local splitta = game:GetService("ReplicatedStorage")
+if splitta:FindFirstChild("OpenAC Replicated Folder") then
+    pcall(function()
+        splitta["OpenAC Replicated Folder"]:Destroy()
+    end)
+end
